@@ -1,0 +1,10 @@
+# Executables
+program
+*.out
+*.exe
+
+# Object files (when you have multiple source files later)
+*.o
+
+# Debug files
+*.dSYM/
