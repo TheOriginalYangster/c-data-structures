@@ -1,5 +1,5 @@
 # Executables
-program
+main
 *.out
 *.exe
 
