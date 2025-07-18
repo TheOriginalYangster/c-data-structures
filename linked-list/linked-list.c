@@ -3,7 +3,6 @@
 
 // Function prototypes
 struct LinkedList* create_list(void);
-struct Node* create_node(int value);
 int destroy_list(struct LinkedList* list);
 int insert_front(struct LinkedList* list, int value);
 int insert_back(struct LinkedList* list, int value);
@@ -43,94 +42,122 @@ struct LinkedList* create_list(void) {
         return NULL;
     }
 
-    list->head = malloc(sizeof(struct Node));
-    
-    // Ensure memory allocation is successful
-    if (list->head == NULL) {
-        free(list);
-        return NULL;
-    }
-    
-    list->size = 1;
-
+    list->head = NULL;
+    list->size = 0;
 
     return list;
 }
 
-struct Node* create_node(int value) {
-    // TODO: Allocate memory for Node struct
-    // TODO: Set data to value and next to NULL
-    // TODO: Return pointer to new node or NULL on failure
-    return NULL;
-}
-
 int destroy_list(struct LinkedList* list) {
-    // TODO: Check for NULL list
-    // TODO: Free all nodes in the list
-    // TODO: Free the list struct itself
-    // TODO: Return 0 on success, 1 on failure
+    // TODO
     return 1;
 }
 
 int insert_front(struct LinkedList* list, int value) {
-    // TODO: Check for NULL list
-    // TODO: Create new node
-    // TODO: Set new node's next to current head
-    // TODO: Update head to point to new node
-    // TODO: Increment size
-    // TODO: Return 0 on success, 1 on failure
-    return 1;
+    
+    // Null pointer check
+    if (list == NULL) {
+        // list->head can have a Null pointer by design.  Ignore.
+        return 1;
+    }
+
+    struct Node* new_head = malloc(sizeof(struct Node));
+
+    // Malloc check
+    if (new_head == NULL) {
+        return 1;
+    }
+
+    new_head->data = value;
+    new_head->next = list->head;
+    list->head = new_head;
+    list->size ++;
+
+    return 0;
 }
 
 int insert_back(struct LinkedList* list, int value) {
-    // TODO: Check for NULL list
-    // TODO: Create new node
-    // TODO: If list is empty, set head to new node
-    // TODO: Otherwise, traverse to last node and link new node
-    // TODO: Increment size
-    // TODO: Return 0 on success, 1 on failure
-    return 1;
+    
+    // Null pointer check
+    if (list == NULL) {
+        return 1;
+    }
+
+    // Just create the new node up here
+    struct Node* node = malloc(sizeof(struct Node));
+    // Check malloc
+    if (node == NULL) {
+        return 1;
+    }
+    node->data = value;
+    node->next = NULL;
+    
+    struct Node* current = list->head;
+
+    // Empty list check
+    if (current == NULL) {
+        list->head = node;
+        list->size ++;
+        return 0;
+    }
+
+    while(current->next != NULL) {
+        current = current->next;
+    }
+
+    current->next = node;
+    list->size ++;
+    return 0;
+
 }
 
 int insert_at(struct LinkedList* list, int index, int value) {
-    // TODO: Check for NULL list and valid index
-    // TODO: If index is 0, use insert_front
-    // TODO: Otherwise, traverse to position index-1
-    // TODO: Create new node and link it between current and next
-    // TODO: Increment size
-    // TODO: Return 0 on success, 1 on failure
-    return 1;
+    
+    // Null pointer check
+    // Valid index check
+    if (list == NULL || index > list->size) {
+        return 1;
+    }
+
+    // Create the node
+    struct Node* new_node = malloc(sizeof(struct Node));
+    if (new_node == NULL) {
+        return 1;
+    }
+    new_node->data = value;
+
+    // index = 0 edge case
+    if (index == 0) {
+        new_node->next = list->head; // Empty list handles itself
+        list->head = new_node;
+        list->size ++;
+        return 0;
+    }
+
+    struct Node* current = list->head;
+    int i = 1; // Had to think through why start at 1;
+    while(i < index) {
+        // Should I do a null pointer check here? => NO!
+        // Theoretically it should not happen but who knows.
+        current = current->next;
+        i ++;
+    }
+
+    new_node->next = current->next;
+    current->next = new_node;
+    list->size ++;
+    return 0;
 }
 
 int remove_value(struct LinkedList* list, int value) {
-    // TODO: Check for NULL list
-    // TODO: Handle removing head node specially
-    // TODO: Traverse list to find node with matching value
-    // TODO: Update pointers to skip found node
-    // TODO: Free the removed node
-    // TODO: Decrement size
-    // TODO: Return 0 on success, 1 if not found
     return 1;
 }
 
 int remove_at(struct LinkedList* list, int index) {
-    // TODO: Check for NULL list and valid index
-    // TODO: Handle removing head node specially
-    // TODO: Traverse to position index-1
-    // TODO: Update pointers to skip node at index
-    // TODO: Free the removed node
-    // TODO: Decrement size
-    // TODO: Return 0 on success, 1 on failure
     return 1;
 }
 
 int remove_front(struct LinkedList* list) {
-    // TODO: Check for NULL list and empty list
-    // TODO: Save current head
-    // TODO: Update head to next node
-    // TODO: Free old head
-    // TODO: Decrement size
-    // TODO: Return 0 on success, 1 on failure
     return 1;
 }
 
